@@ -88,35 +88,53 @@ function classifyBadges(badgesText) {
     return classifiedBadges
 }
 
-function insertAfter(newNode, afterNode) {
-    return afterNode.parentNode.insertBefore(newNode, afterNode.nextSibling)
-}
+function printClassifiedBadges(classifiedBadges, badgesNode) {
+    const L1 = function(text, parent) {
+        const newNode = document.createElement('div')
+        newNode.style.backgroundColor = "#dddddd"
+        newNode.style.fontWeight = "900"
+        newNode.textContent = text
+        return parent.appendChild(newNode)
+    }
+    const L2 = function(text, parent) {
+        const newNode = document.createElement('div')
+        newNode.style.backgroundColor = "#eeeeee"
+        newNode.style.fontWeight = "normal"
+        newNode.textContent = text
+        return parent.appendChild(newNode)
+    }
+    const L3 = function(text, parent) {
+        const newNode = document.createElement('div')
+        newNode.style.backgroundColor = "#ffffff"
+        newNode.style.fontWeight = "normal"
+        newNode.textContent = text
+        return parent.appendChild(newNode)
+    }
 
-function printClassifiedBadges(classifiedBadges, insertCallback) {
     if (Object.keys(classifiedBadges.Career).length > 0) {
-        insertCallback("Career:")
+        const nodeL1 = L1("Career:", badgesNode)
         Object.entries(classifiedBadges.Career).forEach(e => {
-            insertCallback("- " + e[0] + ":")
-            insertCallback("-- " + e[1].join(", "))
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/5]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
         })
     }
     if (Object.keys(classifiedBadges.Exploration).length > 0) {
-        insertCallback("Exploration:")
+        const nodeL1 = L1("Exploration:", badgesNode)
         Object.entries(classifiedBadges.Exploration).forEach(e => {
-            insertCallback("- " + e[0] + ":")
-            insertCallback("-- " + e[1].join(", "))
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
         })
     }
     if (Object.keys(classifiedBadges["Monster Hunting"]).length > 0) {
-        insertCallback("Monster Hunting:")
+        const nodeL1 = L1("Monster Hunting:", badgesNode)
         Object.entries(classifiedBadges["Monster Hunting"]).forEach(e => {
-            insertCallback("- " + e[0] + ":")
-            insertCallback("-- " + e[1].join(", "))
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/3]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
         })
     }
     if (classifiedBadges.Others.length > 0) {
-        insertCallback("Others:")
-        insertCallback("- " + classifiedBadges.Others.join(", "))
+        const nodeL1 = L1("Others:", badgesNode)
+        L3(classifiedBadges.Others.join(", "), nodeL1)
     }
 }
 
@@ -124,9 +142,9 @@ function main() {
     const previousNode = [...document.querySelectorAll("div.panetitle")].find(div => div.textContent == "Badges Earned:")
     const badgesText = previousNode.nextSibling.textContent
     const classifiedBadges = classifyBadges(badgesText)
-    previousNode.parentNode.removeChild(previousNode.nextSibling)
-    var after = previousNode
-    printClassifiedBadges(classifiedBadges, text => { after = insertAfter(document.createElement('br'), insertAfter(document.createTextNode(text), after))})
+    var badgesNode = document.createElement('div')
+    previousNode.parentNode.replaceChild(badgesNode, previousNode.nextSibling)
+    printClassifiedBadges(classifiedBadges, badgesNode)
 }
 
 main()
