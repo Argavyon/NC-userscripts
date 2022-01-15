@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Badge Categorizer
 // @namespace    http://github.com/Argavyon
-// @version      1.0
+// @version      1.1
 // @description  Categorizes badges in NC character descriptions
 // @author       Goliath
-// @match        https://www.nexusclash.com/clash.php?op=character*
+// @match        *://www.nexusclash.com/clash.php?op=character*
+// @match        *://nexusclash.com/clash.php?op=character*
 // @icon         https://nexusclash.com/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -13,13 +14,13 @@ const Badges = {
 	"Career" : {
 		"Alcohol Drunk" : ["Low Tolerance", "Frat Boy", "Alcoholic", "Sinatra", "Friend of Bill"],
 		"Angels Killed" : ["Perverter", "Ruiner", "Nightmare Whisperer", "Voice of Armageddon", "The End of Hope"],
-		"Books Read" : ["Reader", "Bookworm", "Librarian", "Bibliophile", "Teacher's Pet"],
-		"Deaths" : ["Buried", "Wormfood", "Aspect Hunter", "Lich Pet", "Coffinmaker's Friend"],
+		"Books Read" : ["Reader", "Bookworm", "Librarian", "Bibliophile", "Teacher's Pet", ...["Teachers Pet"]],
+		"Deaths" : ["Buried", "Wormfood", "Aspect Hunter", "Lich Pet", "Coffinmaker's Friend", ...["Coffinmakers Friend"]],
 		"Demons Killed" : ["Cleanser", "Demonslayer", "Hammer of Light", "Justicebringer", "Blade of the Word"],
-		"Doors Destroyed" : ["Opportunity Knocks", "Big Bad Wolf", "Here's Johnny", "Landshark", "Homewrecker"],
+		"Doors Destroyed" : ["Opportunity Knocks", "Big Bad Wolf", "Here's Johnny", "Landshark", "Homewrecker", ...["Heres Johnny"]],
 		"Doors Repaired" : ["Apprentice Carpenter", "Woodworker", "Journeyman Carpenter", "Architect", "Master Carpenter"],
 		"Food Eaten" : ["Taste Tester", "Gourmand", "Glutton", "Masticator", "Food Critic"],
-		"Items Crafted" : ["Sweat Shop Worker", "Journeyman Blacksmith", "Factory Foreman", "Artisan", "Artifex"],
+		"Items Crafted" : ["Sweat Shop Worker", "Journeyman Blacksmith", "Factory Foreman", "Artisan", "Artifex", ...["Sweatshop Worker"]],
 		"Items Repaired" : ["Tinker", "Mender", "Fixer", "Handyman", "80s Action Hero"],
 		"Kills" : ["Killer", "Warrior", "Disciple of Death", "Master of Death", "Gravemaker"],
 		"Locks Picked" : ["Thief", "Burglar", "Second-Story Man", "Locksmith", "Master of Tumblers"],
@@ -28,10 +29,76 @@ const Badges = {
 		"Power Removed" : ["Wiresnipper", "Fusebreaker", "Circuitbreaker", "Blackout", "Degenerate"],
 		"Power Restored" : ["Apprentice Electrician", "Fusemaker", "Journeyman Electrician", "Circuitmaker", "Master Electrician"],
 		"Targets Shot" : ["Barn Assassin", "Sharpshooter", "Deadeye", "Gunslinger", "Hickok"],
-		"Damage Dealt" : ["Crusher", "Smasher", "Bloodletter", "Assassin", "Surgeon's Lament", "Widowmaker"],
+		"Damage Dealt" : ["Crusher", "Smasher", "Bloodletter", "Assassin", "Surgeon's Lament", "Widowmaker", ...["Surgeons Lament"]],
 		"Damage Taken" : ["Punching Bag", "Bruised", "Crushed", "All Stitched Up", "Keeping Healers in Business", "Constantly in Traction"],
 		"HP Healed" : ["Medic", "Doctor", "Surgeon", "Healer", "Bodyweaver", "Lifesaver"]
 	},
+    "Breath 5" : {
+        "Alcohol Drunk": [],
+        "Angels Killed": [],
+        "Books Read": [],
+        "Damage Dealt": [],
+        "Damage Taken": [],
+        "Deaths": [],
+        "Demons Killed": [],
+        "Doors Destroyed": [],
+        "Doors Repaired": [],
+        "Food Eaten": [],
+        "HP Healed": [],
+        "Items Crafted": [],
+        "Items Repaired": [],
+        "Kills": [],
+        "Locks Picked": [],
+        "Pets Killed": [],
+        "Pills Taken": [],
+        "Power Removed": [],
+        "Power Restored": [],
+        "Targets Shot": []
+    },
+    "Breath 4" : {
+        "Alcohol Drunk": ["Pink Elephant Rider", "Trapped in a Bottle"],
+        "Angels Killed": ["Darkness Visible", "Abomination of Desolation"],
+        "Books Read": ["Researcher", "Overeducated"],
+        "Damage Dealt": ["Bruiser", "Apex Predator"],
+        "Damage Taken": ["Traumatized", "Impervious to Pain"],
+        "Deaths": ["Cemetery Monopolist", "Deader than Dead"],
+        "Demons Killed": ["Avenger of Blood", "Hand of Namm"],
+        "Doors Destroyed": ["Barrier Free", "Uninvited"],
+        "Doors Repaired": ["Security Expert", "Siege Warrior"],
+        "Food Eaten": ["Gastronomist", "Great Devourer"],
+        "HP Healed": ["First Responder", "Panacea"],
+        "Items Crafted": ["Forgemaster", "Titan of Industry"],
+        "Items Repaired": ["Jerry Rigger", "Master Mechanic"],
+        "Kills": ["Executioner", "Chooser of the Slain"],
+        "Locks Picked": ["Plunderer", "Five Finger Bargain Hunter"],
+        "Pets Killed": ["Varmint Hunter", "Harbinger of Extinction"],
+        "Pills Taken": ["High Roller", "Everlasting Rehab"],
+        "Power Removed": ["Luddite", "Brings the Night"],
+        "Power Restored": ["Illuminati", "Lights up the World"],
+        "Targets Shot": ["Eagle Eyed", "Gunshepherd"]
+    },
+    "Breath 3" : {
+        "Alcohol Drunk": ["Lush", "Inebriate"],
+        "Angels Killed": ["Author of Despair", "Shroudbringer"],
+        "Books Read": ["Critic", "Proofreader"],
+        "Damage Dealt": ["Mauler", "State of Contusion"],
+        "Damage Taken": ["Hemophiliac", "Uninsurable"],
+        "Deaths": ["Rory Williams", "Disciple of Kenny"],
+        "Demons Killed": ["Demonsbane", "Dawnbringer"],
+        "Doors Destroyed": ["Gatecrasher", "Urban Lumberjack"],
+        "Doors Repaired": ["Framer", "Master Framer"],
+        "Food Eaten": ["Gorger", "Competetive [sic] Eater"],
+        "HP Healed": ["Sawbones", "Hippocrat"],
+        "Items Crafted": ["Manufacturer", "Assembly Line"],
+        "Items Repaired": ["Refurbisher", "Restoration Artist"],
+        "Kills": ["Slayer", "Hand of Death"],
+        "Locks Picked": ["Pilferer", "Midnighter"],
+        "Pets Killed": ["Big Game Hunter", "Taxidermist"],
+        "Pills Taken": ["Junkie", "Cabinet Raider"],
+        "Power Removed": ["Pitchman", "Black Knight"],
+        "Power Restored": ["Linesman", "Head Linesman"],
+        "Targets Shot": ["Crack Shot", "Sniper"]
+    },
 	"Exploration" : {
 		"Breath 4" : [
 			"A New Chapter", "Academic Probation", "All In The Family", "And I Must Scream", "At All Costs", "Baraas Ascends", "Birthing Pool", "Broken Alliance",
@@ -63,7 +130,7 @@ const Badges = {
 
 function classifyBadges(badgesText) {
     const badgeTexts = badgesText.trim().split(",").map(str => str.trim())
-    let classifiedBadges = {"Career": {}, "Exploration": {}, "Monster Hunting": {}, "Others": []}
+    let classifiedBadges = {}
 
     for (let bT of badgeTexts) {
         let found = false
@@ -89,62 +156,95 @@ function classifyBadges(badgesText) {
 }
 
 function printClassifiedBadges(classifiedBadges, badgesNode) {
-    const L1 = function(text, parent) {
-        const newNode = document.createElement('div')
-        newNode.style.backgroundColor = "#dddddd"
-        newNode.style.fontWeight = "900"
-        newNode.textContent = text
-        return parent.appendChild(newNode)
+    function L1(text, parent) {
+        const categoryNode = parent.appendChild(document.createElement('div'))
+        categoryNode.style.backgroundColor = "#dddddd"
+        const titleNode = categoryNode.appendChild(document.createElement('div'))
+        const contentNode = categoryNode.appendChild(document.createElement('div'))
+        titleNode.style.fontWeight = "900"
+        titleNode.textContent = text
+        titleNode.title = "Click to expand/collapse"
+        titleNode.onclick = () => { if (contentNode.style.display != "none") contentNode.style.display = "none"; else contentNode.style.display = "initial" }
+        return contentNode
     }
-    const L2 = function(text, parent) {
+    function L2(text, parent) {
         const newNode = document.createElement('div')
         newNode.style.backgroundColor = "#eeeeee"
         newNode.style.fontWeight = "normal"
         newNode.textContent = text
         return parent.appendChild(newNode)
     }
-    const L3 = function(text, parent) {
+    function L3(text, parent) {
         const newNode = document.createElement('div')
         newNode.style.backgroundColor = "#ffffff"
         newNode.style.fontWeight = "normal"
         newNode.textContent = text
         return parent.appendChild(newNode)
     }
+    function orderObject(unordered, ordering) {
+        return Object.keys(unordered).sort(
+            (a,b) => (Object.keys(ordering).indexOf(a) < Object.keys(ordering).indexOf(b) ? -1 : 1)
+        ).reduce((obj, key) => { obj[key] = unordered[key]; return obj }, {})
+    }
 
-    if (Object.keys(classifiedBadges.Career).length > 0) {
+    if (classifiedBadges.Career) {
         const nodeL1 = L1("Career:", badgesNode)
-        Object.entries(classifiedBadges.Career).forEach(e => {
-            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/5]", nodeL1)
+        Object.entries(orderObject(classifiedBadges.Career, Badges.Career)).forEach(e => {
+            const badge6 = ["Damage Dealt", "Damage Taken", "HP Healed"]
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + (badge6.includes(e[0]) ? "/6]" : "/5]"), nodeL1)
             L3(e[1].join(", "), nodeL2)
         })
     }
-    if (Object.keys(classifiedBadges.Exploration).length > 0) {
+    if (classifiedBadges["Breath 5"]) {
+        const nodeL1 = L1("Breath 5:", badgesNode)
+        Object.entries(orderObject(classifiedBadges["Breath 5"], Badges["Breath 5"])).forEach(e => {
+            const badge6 = ["Damage Dealt", "Damage Taken", "HP Healed"]
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/2]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
+        })
+    }
+    if (classifiedBadges["Breath 4"]) {
+        const nodeL1 = L1("Breath 4:", badgesNode)
+        Object.entries(orderObject(classifiedBadges["Breath 4"], Badges["Breath 4"])).forEach(e => {
+            const badge6 = ["Damage Dealt", "Damage Taken", "HP Healed"]
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/2]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
+        })
+    }
+    if (classifiedBadges["Breath 3"]) {
+        const nodeL1 = L1("Breath 3:", badgesNode)
+        Object.entries(orderObject(classifiedBadges["Breath 3"], Badges["Breath 3"])).forEach(e => {
+            const badge6 = ["Damage Dealt", "Damage Taken", "HP Healed"]
+            const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/2]", nodeL1)
+            L3(e[1].join(", "), nodeL2)
+        })
+    }
+    if (classifiedBadges.Exploration) {
         const nodeL1 = L1("Exploration:", badgesNode)
-        Object.entries(classifiedBadges.Exploration).forEach(e => {
+        Object.entries(orderObject(classifiedBadges.Exploration, Badges.Exploration)).forEach(e => {
             const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "]", nodeL1)
             L3(e[1].join(", "), nodeL2)
         })
     }
-    if (Object.keys(classifiedBadges["Monster Hunting"]).length > 0) {
+    if (classifiedBadges["Monster Hunting"]) {
         const nodeL1 = L1("Monster Hunting:", badgesNode)
-        Object.entries(classifiedBadges["Monster Hunting"]).forEach(e => {
+        Object.entries(orderObject(classifiedBadges["Monster Hunting"], Badges["Monster Hunting"])).forEach(e => {
             const nodeL2 = L2("\u2003" + e[0] + " [" + e[1].length + "/3]", nodeL1)
             L3(e[1].join(", "), nodeL2)
         })
     }
-    if (classifiedBadges.Others.length > 0) {
+    if (classifiedBadges.Others) {
         const nodeL1 = L1("Others:", badgesNode)
         L3(classifiedBadges.Others.join(", "), nodeL1)
     }
 }
 
 function main() {
-    const previousNode = [...document.querySelectorAll("div.panetitle")].find(div => div.textContent == "Badges Earned:")
-    const badgesText = previousNode.nextSibling.textContent
-    const classifiedBadges = classifyBadges(badgesText)
-    var badgesNode = document.createElement('div')
-    previousNode.parentNode.replaceChild(badgesNode, previousNode.nextSibling)
-    printClassifiedBadges(classifiedBadges, badgesNode)
+    const oldBadgesNode = [...document.querySelectorAll("div.panetitle")].find(div => div.textContent == "Badges Earned:").nextSibling
+    const classifiedBadges = classifyBadges(oldBadgesNode.textContent)
+    const newBadgesNode = document.createElement('div')
+    oldBadgesNode.parentNode.replaceChild(newBadgesNode, oldBadgesNode)
+    printClassifiedBadges(classifiedBadges, newBadgesNode)
 }
 
 main()
