@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Enhanced Alchemy Panel
 // @namespace    https://github.com/Argavyon/
-// @version      1
+// @version      1.1
 // @author       Goliath
 // @match        *://nexusclash.com/clash.php*
 // @match        *://www.nexusclash.com/clash.php*
@@ -15,7 +15,7 @@ async function EnhancedAlchemyNode(node, grade, researchButton, researchComp, re
     const recipeName = node.children[0].textContent.trim()
     const recipeId = 'alchemy-' + recipeName.replace(' ', '-')
 
-    node.children[0].style.width = '65%'
+    node.children[0].style.width = '59.69%'
     node.children[0].childNodes[1].nodeValue = node.children[0].childNodes[1].nodeValue + ' [' + grade + '/6]'
 
     node.children[0].appendChild(document.createElement('br'))
@@ -56,6 +56,7 @@ async function EnhancedAlchemyNode(node, grade, researchButton, researchComp, re
         }
     }
     if (grade > 0) { // At least one of the components has been found
+        span.appendChild(document.createElement('hr'))
         const forButton = span.appendChild(document.createElement('input'))
         forButton.value = 'Forget Recipe (5 AP, 5 MP)'
         forButton.type = 'Button'
@@ -92,16 +93,44 @@ async function EnhancedAlchemyNode(node, grade, researchButton, researchComp, re
     }
 }
 
+async function SimpleAlchemyNode(node) {
+    const recipeName = node.children[0].textContent.trim()
+    const recipeId = 'alchemy-' + recipeName.replace(' ', '-')
+
+    const collapseButton = document.createElement('input')
+    collapseButton.type = 'Button'
+    collapseButton.value = node.children[0].children[0].value
+    collapseButton.title = node.children[0].children[0].title
+    node.children[0].replaceChild(collapseButton, node.children[0].children[0])
+
+    collapseButton.onclick = function(event) {
+        const wasCollapsed = collapseButton.value == '+'
+
+        collapseButton.value = wasCollapsed ? '-' : '+'
+        collapseButton.title = wasCollapsed ? 'Collapse' : 'Expand'
+        node.children[1].children[0].classList.toggle('toggled')
+
+        GM.setValue(recipeId, !wasCollapsed)
+    }
+    if (!(await GM.getValue(recipeId))) collapseButton.click()
+}
+
 function EnhancedAlchemyPanel(trackerNode) {
     const alchemyResearch = document.getElementById('main-left').querySelector('form[name="alchemyresearch"]')
-    const alchemyForget = document.getElementById('main-left').querySelector('form[name="alchemyforget"]')
-    const resButton = alchemyResearch.children[1]
-    const resComp = alchemyResearch.children[2]
-    const resPotion = alchemyResearch.children[3]
+    if (alchemyResearch) {
+        const alchemyForget = document.getElementById('main-left').querySelector('form[name="alchemyforget"]')
+        const resButton = alchemyResearch.children[1]
+        const resComp = alchemyResearch.children[2]
+        const resPotion = alchemyResearch.children[3]
 
-    for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
-        const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length
-        EnhancedAlchemyNode(node, grade, resButton, resComp, resPotion, alchemyForget)
+        for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
+            const grade = 6 - node.children[1].querySelectorAll('li[title="unknown"').length
+            EnhancedAlchemyNode(node, grade, resButton, resComp, resPotion, alchemyForget)
+        }
+    } else {
+        for (let node = trackerNode.nextSibling; node && node.children[1]; node = node.nextSibling) {
+            SimpleAlchemyNode(node)
+        }
     }
 }
 
